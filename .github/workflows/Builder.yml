@@ -26,6 +26,9 @@ jobs:
            patch -p1 < 0950fbba5e79820da539054f6eb6d1d48ec96ff4.patch
            wget https://github.com/tiann/KernelSU/commit/8fbdd996de69abd107f147218881ae1aa72ef565.patch
            patch -p1 -R < 8fbdd996de69abd107f147218881ae1aa72ef565.patch
+           cd ..
+           wget https://github.com/LineageOS/android_kernel_xiaomi_sdm710/commit/f8bced27d13e030626d507db539708b6b0606597.patch
+           patch -p1 -R < f8bced27d13e030626d507db539708b6b0606597.patch
            rm -rf *.patch
       - name: Compiling Kernel
         run: |
