@@ -62,10 +62,10 @@ jobs:
           Build Code: ${{ github.run_number }}
           KernelSU For MI8SE" >> INFO.txt
       - name: Uploading Kernel Package to GH-Release
-        uses: ncipollo/release-action@v1.8.6
+        uses: ncipollo/release-action@v1.12.0
         with:
           artifacts: MI8SE_KernelSU_LineageOS.zip
           name: "MI8SE_KernelSU"
-          tag: " ${{ github.run_number }}_MI8SE_KernelSU"
+          tag: " MI8SE_KernelSU_20230310"
           bodyFile: "INFO.txt"
           token: ${{ secrets.GITHUB_TOKEN }}
