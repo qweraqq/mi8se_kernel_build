@@ -67,6 +67,6 @@ jobs:
         with:
           artifacts: MI8SE_KernelSU_LineageOS.zip
           name: "MI8SE_KernelSU"
-          tag: " MI8SE_KernelSU_20230330"
+          tag: " MI8SE_KernelSU_20230405"
           bodyFile: "INFO.txt"
           token: ${{ secrets.GITHUB_TOKEN }}
