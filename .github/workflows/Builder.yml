@@ -14,11 +14,17 @@ jobs:
           sudo apt clean
       - name: Cloning Sources and Toolchain
         run: |
-          git clone https://github.com/phsecdev/android_ebpf_kernel_xiaomi_sdm710.git --depth=1 -b lineage-20 --recurse-submodules android_kernel_xiaomi_sdm710_LineageOS
+          git clone https://github.com/qweraqq/xiaomi8se-kernel-sdm710.git --depth=1 -b only-ksu --recurse-submodules android_kernel_xiaomi_sdm710_LineageOS
           git clone https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r445002 --depth=1 --single-branch --no-tags -b 12.0 ~/clang
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/aarch64-linux-android-4.9
           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-10.0.0_r47 --depth=1 --single-branch --no-tags ~/arm-linux-androideabi-4.9
           git clone https://github.com/qweraqq/Mi8SeAnyKernel3 AnyKernel3
+      - name: Applying Kernel Patch(LineageOS)
+        run: |
+           cd android_kernel_xiaomi_sdm710_LineageOS/KernelSU
+           wget https://github.com/tiann/KernelSU/commit/0950fbba5e79820da539054f6eb6d1d48ec96ff4.patch
+           patch -p1 < 0950fbba5e79820da539054f6eb6d1d48ec96ff4.patch
+           rm -rf *.patch
       - name: Compiling Kernel(LineageOS)
         run: |
           CLANG=~/clang/bin
@@ -45,7 +51,7 @@ jobs:
           cp -v android_kernel_xiaomi_sdm710_LineageOS/out/arch/arm64/boot/Image.gz \
                      AnyKernel3/
           pushd AnyKernel3
-          7z a -mx9 ../MI8SE_epbf_LineageOS.zip *
+          7z a -mx9 ../MI8SE_ksu_LineageOS.zip *
           popd
       - name: Creating Config Info
         run: |
@@ -56,8 +62,8 @@ jobs:
       - name: Uploading Kernel Package to GH-Release
         uses: ncipollo/release-action@v1.12.0
         with:
-          artifacts: MI8SE_epbf_LineageOS.zip
-          name: "MI8SE_ebpf"
-          tag: " MI8SE_ebpf"
+          artifacts: MI8SE_ksu_LineageOS.zip
+          name: "MI8SE_only_ksu"
+          tag: "MI8SE_KernelSU-20230412"
           bodyFile: "INFO.txt"
           token: ${{ secrets.GITHUB_TOKEN }}
